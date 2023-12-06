@@ -2,7 +2,7 @@
 
 [Vert.x REST API Project](https://github.com/markcheng123/test/tree/main/backend/vert.x)
 
-This project uses Vert.x framework to create Http server and exposed several end-points to create/update/read data. The project uses:
+This project uses Vert.x framework to create Http server and exposes some end-points to create/update/read data. The project uses:
 
 - log4j library to log info/error/debug messages
 - JUnit/Vertx-unit libraries for unit testing
@@ -15,8 +15,8 @@ The end-points exposed are as below:
 | POST | /addRetrospective | Payload 1 | 201, 400, 409 |
 | POST | /addFeedback | Payload 2 | 201, 400, 404, 409 |
 | PUT | /updateFeedback | Payload 2 | 200, 400, 404 |
-| GET | /searchRetrospective?currentPage=1&pageSize=5 |  | 200, 400 |
-| GET | /searchRetrospectiveByDate?date=27/07/2022&currentPage=a&pageSize=2 | currentPage and pageSize are optional | 200, 400 |
+| GET | /searchRetrospective?currentPage=1&pageSize=10 |  | 200, 400 |
+| GET | /searchRetrospectiveByDate?date=27/07/2022&currentPage=1&pageSize=10 | currentPage and pageSize are optional | 200, 400 |
 
 Payload 1:
 ```json
