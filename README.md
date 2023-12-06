@@ -2,7 +2,7 @@
 
 [Vert.x REST API Project](https://github.com/markcheng123/test/tree/main/backend/vert.x)
 
-This project uses Vert.x framework to create Http server and exposed several end-points to create/update/read data. It uses:
+This project uses Vert.x framework to create Http server and exposed several end-points to create/update/read data. The project uses:
 
 - log4j library to log info/error/debug messages
 - JUnit/Vertx-unit libraries for unit testing
@@ -64,14 +64,17 @@ Payload 2:
    <br/><br/>
 ---
 <br/>
+
 ## FRONTEND
 
 [React UI Project](https://github.com/markcheng123/test/tree/main/frontend/react-ui)
 
-This project uses React and Redux Toolkit to build the single-page application. It uses
+This project uses React and Redux Toolkit to build the single-page application. The dummy product data is downloaded from [dummyJSON](https://dummyjson.com/). The project uses
 
 - Bootstrap for styling
 - React Bootstrap components for user interaction
+
+![alt text](https://raw.githubusercontent.com/markcheng123/test/main/frontend/react-ui/Screenshot.png)
 
 > Start the project
 1. Run `npm install`
