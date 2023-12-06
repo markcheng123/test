@@ -253,10 +253,12 @@ public class MainVerticle extends AbstractVerticle {
       String xmlText = XML.toString(jsonArray);
       rc.response()
         .putHeader("content-type", "text/xml")
+        .setStatusCode(200)
         .end(xmlText);
     } else {
       rc.response()
         .putHeader("content-type", "application/json")
+        .setStatusCode(200)
         .end(result.toString());
     }
   }
