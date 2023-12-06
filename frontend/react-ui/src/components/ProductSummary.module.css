@@ -1,0 +1,27 @@
+.container {
+    flex: 0 0 30%;
+    margin: 12px;
+    background-color: rgb(233 233 233);
+}
+
+.highlight {
+    transform: scale(1.03);
+    background-color: rgba(14,26,50,0.9);
+    color: #fff;
+}
+
+.price {
+    color: #bb0000;
+    font-size: 24px;
+    font-weight: 400;
+}
+
+.highlight .price {
+    color: #00fe00;
+}
+
+.noThumbnail {
+    height: 200px;
+    opacity: 0.3;
+    font-style: italic;
+}

@@ -1,0 +1,10 @@
+.container {
+    width: 100%;
+    padding: 15px 220px;
+    background-color: #000;
+    color: #fff;
+}
+
+.container a {
+    margin-left: 3px;
+}

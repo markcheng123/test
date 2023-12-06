@@ -1,0 +1,34 @@
+.container {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.filterBar {
+    padding: 15px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #d2d2d2;
+}
+
+.filterBar label {
+    margin-right: 10px;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.container .filterBar a,
+.container .filterBar a:visited {
+    color: #000;
+}
+
+.productContainer {
+    width: 100%;
+    height: calc(100% - 69px);
+    overflow: hidden;
+}
+
+.products {
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+}

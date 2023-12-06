@@ -1,0 +1,27 @@
+.container {
+    width: 100%;
+    padding: 10px 220px;
+    background-color: #282c34;
+    color: #fff;
+}
+
+.logo {
+    height: 45px;
+}
+
+.name {
+    font-size: 26px;
+    color: #61dafb;
+}
+
+.nav {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.nav li {
+    font-size: 18px;
+    margin: 0px 12px;
+}
+
