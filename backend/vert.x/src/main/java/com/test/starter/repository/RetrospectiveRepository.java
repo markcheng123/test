@@ -10,9 +10,9 @@ import java.util.List;
 
 public interface RetrospectiveRepository {
 
-  void addRetrospective(Retrospective retrospective, Handler<AsyncResult<Void>> resultHandler);
+  void addRetrospective(Retrospective retrospective, Handler<AsyncResult<JsonObject>> resultHandler);
 
-  void addFeedback(String retroName, Feedback feedback, Handler<AsyncResult<Void>> resultHandler);
+  void addFeedback(String retroName, Feedback feedback, Handler<AsyncResult<JsonObject>> resultHandler);
 
   void updateFeedback(String retroName, Feedback feedback, Handler<AsyncResult<Void>> resultHandler);
 

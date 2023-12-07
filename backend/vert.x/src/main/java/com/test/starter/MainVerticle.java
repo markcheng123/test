@@ -85,9 +85,9 @@ public class MainVerticle extends AbstractVerticle {
       final Retrospective retrospective = new Retrospective(name, summary, date, participants);
       repository.addRetrospective(retrospective, ar -> {
         if (ar.succeeded()) {
-          rc.response().setStatusCode(201).end();
+          rc.response().setStatusCode(201).putHeader("content-type", "application/json").end(ar.result().toString());
         } else {
-          rc.fail(409);
+          rc.response().setStatusCode(409).end(ar.cause().getMessage());
         }
       });
     } else {
@@ -111,13 +111,13 @@ public class MainVerticle extends AbstractVerticle {
         final Feedback feedback = new Feedback(name, body, type);
         repository.addFeedback(retroName, feedback, ar -> {
           if (ar.succeeded()) {
-            rc.response().setStatusCode(201).end();
+            rc.response().setStatusCode(201).putHeader("content-type", "application/json").end(ar.result().toString());
           } else {
             final String message = ar.cause().getMessage();
             if (message.equals("Retrospective name does not exist")) {
-              rc.fail(404);
+              rc.response().setStatusCode(404).end(message);
             } else {
-              rc.fail(409);
+              rc.response().setStatusCode(409).end(message);
             }
           }
         });
@@ -148,7 +148,7 @@ public class MainVerticle extends AbstractVerticle {
           if (ar.succeeded()) {
             rc.response().setStatusCode(200).end();
           } else {
-            rc.fail(404);
+            rc.response().setStatusCode(404).end(ar.cause().getMessage());
           }
         });
       } else {

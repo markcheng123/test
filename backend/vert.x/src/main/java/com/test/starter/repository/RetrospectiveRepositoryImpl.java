@@ -19,29 +19,29 @@ public class RetrospectiveRepositoryImpl implements RetrospectiveRepository {
   Map<String, Retrospective> repository = new LinkedHashMap<>();
 
   @Override
-  public void addRetrospective(Retrospective retrospective, Handler<AsyncResult<Void>> resultHandler) {
+  public void addRetrospective(Retrospective retrospective, Handler<AsyncResult<JsonObject>> resultHandler) {
     final String name = retrospective.getName();
-    if (repository.get(name) == null) {
-      repository.put(name, retrospective);
-      resultHandler.handle(Future.succeededFuture());
-    } else {
+    if (repository.containsKey(name)) {
       resultHandler.handle(Future.failedFuture("Retrospective name already exists"));
+    } else {
+      repository.put(name, retrospective);
+      resultHandler.handle(Future.succeededFuture(retrospective.toJson()));
     }
   }
 
   @Override
-  public void addFeedback(String retroName, Feedback feedback, Handler<AsyncResult<Void>> resultHandler) {
+  public void addFeedback(String retroName, Feedback feedback, Handler<AsyncResult<JsonObject>> resultHandler) {
     final Retrospective retrospective = repository.get(retroName);
     if (retrospective == null) {
       resultHandler.handle(Future.failedFuture("Retrospective name does not exist"));
     } else {
       final Map<String, Feedback> feedbacks = retrospective.getFeedbacks();
       final String name = feedback.getName();
-      if (feedbacks.get(name) == null) {
-        feedbacks.put(name, feedback);
-        resultHandler.handle(Future.succeededFuture());
+      if (feedbacks.containsKey(name)) {
+        resultHandler.handle(Future.failedFuture("Feedback name already exists"));
       } else {
-        resultHandler.handle(Future.failedFuture("Feedback name does not exist"));
+        feedbacks.put(name, feedback);
+        resultHandler.handle(Future.succeededFuture(retrospective.toJson()));
       }
     }
   }
@@ -68,6 +68,7 @@ public class RetrospectiveRepositoryImpl implements RetrospectiveRepository {
     int counter = 0;
     for (Retrospective retrospective : repository.values()) {
       counter++;
+      if (counter > endIndex) break;
       if (counter > startIndex && counter <= endIndex) {
         list.add(retrospective.toJson());
       }
@@ -95,6 +96,7 @@ public class RetrospectiveRepositoryImpl implements RetrospectiveRepository {
       int counter = 0;
       for (Retrospective retrospective : repository.values()) {
         counter++;
+        if (counter > endIndex) break;
         if (counter > startIndex && counter <= endIndex) {
           list.add(retrospective.toJson());
         }
