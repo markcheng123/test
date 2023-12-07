@@ -102,7 +102,7 @@ public class MainVerticle extends AbstractVerticle {
     final String retroName = bodyJson.getString("retroName");
     final String name = bodyJson.getString("name");
     final String body = bodyJson.getString("body");
-    final String typeString = bodyJson.getString("type");
+    final String typeString = formatTypeString(bodyJson.getString("type"));
 
     try {
       final FeedbackType type = FeedbackType.valueOf(typeString);
@@ -137,7 +137,7 @@ public class MainVerticle extends AbstractVerticle {
     final String retroName = bodyJson.getString("retroName");
     final String name = bodyJson.getString("name");
     final String body = bodyJson.getString("body");
-    final String typeString = bodyJson.getString("type");
+    final String typeString = formatTypeString(bodyJson.getString("type"));
 
     try {
       final FeedbackType type = FeedbackType.valueOf(typeString);
@@ -237,6 +237,13 @@ public class MainVerticle extends AbstractVerticle {
       return false;
     }
     return true;
+  }
+
+  private String formatTypeString(String type) {
+      if (type != null) {
+        return type.substring(0, 1).toUpperCase() + type.substring(1).toLowerCase();
+      }
+      return null;
   }
 
   private boolean isValidateDateFormat(String date) {
