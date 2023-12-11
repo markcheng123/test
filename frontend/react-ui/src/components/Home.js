@@ -23,7 +23,7 @@ const Home = () => {
     filteredProducts = products.filter(product => product.category === dropdownTitle);
   }
 
-  const filterHandler = (eventKey, event) => {
+  const handleFilter = (eventKey, event) => {
     if (eventKey !== dropdownTitle) {
       setDropdownTitle(eventKey);
     }
@@ -33,7 +33,7 @@ const Home = () => {
     <div className={styles.container}>
       <div className={`d-flex justify-content-end align-items-center ${styles.filterBar}`}>
         <label>Filter by category:</label>
-        <Dropdown onSelect={filterHandler}>
+        <Dropdown onSelect={handleFilter}>
           <Dropdown.Toggle variant="secondary" id="dropdown-basic">
             {dropdownTitle}
           </Dropdown.Toggle>

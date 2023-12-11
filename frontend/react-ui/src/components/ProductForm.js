@@ -2,7 +2,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import styles from './ProductForm.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import {createProduct, deleteProduct, selectCategories, selectProductsById, updateProduct} from "../redux/reducer";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
@@ -12,8 +12,6 @@ const ProductForm = () => {
   const categories = useSelector(selectCategories);
 
   const product = useSelector(selectProductsById(Number(id)));
-
-  const [isFormValid, setIsFormValid] = useState(false);
 
   const [title, setTitle] = useState(product ? product.title : '');
 
@@ -47,11 +45,9 @@ const ProductForm = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setIsFormValid(!!title && !!category && (price > 1) && !!description && (neverExpires || (!neverExpires && !!expiry)));
-  }, [title, category, price, description, neverExpires, expiry]);
+  const isFormValid = !!title && !!category && (price > 1) && !!description && (neverExpires || (!neverExpires && !!expiry));
 
-  const submitHandler = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const product = { title, description, price, category, expiry, special, thumbnail };
     if (id) {
@@ -71,7 +67,7 @@ const ProductForm = () => {
         </div>
       </div>
       <div className={styles.formContainer}>
-        <form noValidate onSubmit={submitHandler} className={styles.form}>
+        <form noValidate onSubmit={handleSubmit} className={styles.form}>
           <div className="mb-3">
             <label className="form-label">Title <span className={styles.required}>*</span></label>
             <input type="text" id="title" name="title" className="form-control"
