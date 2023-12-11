@@ -14,19 +14,17 @@ const Home = () => {
 
   const categories = useSelector(selectCategories);
 
-  const [filteredProducts, setFilteredProducts] = useState(products);
-
   const [dropdownTitle, setDropdownTitle] = useState(AllCategories);
+
+  let filteredProducts;
+  if (dropdownTitle === AllCategories) {
+    filteredProducts = products;
+  } else {
+    filteredProducts = products.filter(product => product.category === dropdownTitle);
+  }
 
   const filterHandler = (eventKey, event) => {
     if (eventKey !== dropdownTitle) {
-      let filteredProducts;
-      if (eventKey === AllCategories) {
-        filteredProducts = products;
-      } else {
-        filteredProducts = products.filter(product => product.category === eventKey);
-      }
-      setFilteredProducts(filteredProducts);
       setDropdownTitle(eventKey);
     }
   };
