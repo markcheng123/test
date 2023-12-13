@@ -2,7 +2,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import styles from './ProductForm.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import {createProduct, deleteProduct, selectCategories, selectProductsById, updateProduct} from "../redux/reducer";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
@@ -11,30 +11,36 @@ const ProductForm = () => {
 
   const categories = useSelector(selectCategories);
 
-  const product = useSelector(selectProductsById(Number(id)));
+  const existing = useSelector(selectProductsById(Number(id)));
 
-  const [title, setTitle] = useState(product ? product.title : '');
+  const [product, setProduct] = useState(existing || {
+    title: '',
+    category: '',
+    price: '',
+    thumbnail: '',
+    description: '',
+    expiry: '',
+    special: false
+  });
 
-  const [category, setCategory] = useState(product ? product.category : '');
+  const handleChange = (name, value) => {
+    setProduct({...product, [name]: value})
+  }
 
-  const [price, setPrice] = useState(product ? product.price : '');
+  const [neverExpires, setNeverExpires] = useState(existing ? !existing.expiry : true);
 
-  const [thumbnail, setThumbnail] = useState(product ? product.thumbnail : '');
-
-  const [description, setDescription] = useState(product ? product.description : '');
-
-  const [neverExpires, setNeverExpires] = useState(product ? !product.expiry : true);
-
-  const [expiry, setExpiry] = useState(product ? product.expiry : '');
-
-  const [special, setSpecial] = useState(product ? product.special : false);
+  useEffect(() => {
+    if (neverExpires) {
+      setProduct((p) => ({...p, expiry: ''}));
+    }
+  }, [neverExpires]);
 
   const [show, setShow] = useState(false);
 
   const handleClose = (value) => {
     setShow(false);
     if (value) {
-      dispatch(deleteProduct(product.id));
+      dispatch(deleteProduct(existing.id));
       navigate('/');
     }
   };
@@ -45,11 +51,14 @@ const ProductForm = () => {
 
   const navigate = useNavigate();
 
-  const isFormValid = !!title && !!category && (price > 1) && !!description && (neverExpires || (!neverExpires && !!expiry));
+  const isFormInValid = !product.title
+      || !product.category
+      || product.price < 1
+      || !product.description
+      || (!neverExpires && !product.expiry);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const product = { title, description, price, category, expiry, special, thumbnail };
     if (id) {
       dispatch(updateProduct({ id: Number(id), ...product }));
     } else {
@@ -71,12 +80,12 @@ const ProductForm = () => {
           <div className="mb-3">
             <label className="form-label">Title <span className={styles.required}>*</span></label>
             <input type="text" id="title" name="title" className="form-control"
-                   value={title} onChange={(e) => setTitle(e.target.value)}/>
+                   value={product.title} onChange={(e) => handleChange(e.target.name, e.target.value)}/>
           </div>
           <div className="mb-3">
             <label className="form-label">Category <span className={styles.required}>*</span></label>
             <select className="form-select" id="category" name="category"
-                    value={category} onChange={(e) => setCategory(e.target.value)}>
+                    value={product.category} onChange={(e) => handleChange(e.target.name, e.target.value)}>
               <option value="" disabled>Select category</option>
               {categories.map(category => <option key={category} value={category}>{category}</option>)}
             </select>
@@ -86,18 +95,18 @@ const ProductForm = () => {
             <div className="input-group mb-3">
               <span className="input-group-text" id="basic-addon1">£</span>
               <input type="number" id="price" name="price" min="1" className="form-control"
-                     value={price} onChange={(e) => setPrice(e.target.value)} />
+                     value={product.price} onChange={(e) => handleChange(e.target.name, e.target.value)} />
             </div>
           </div>
           <div className="mb-3">
             <label className="form-label">Thumbnail</label>
             <input type="text" id="thumbnail" name="thumbnail" className="form-control"
-                   value={thumbnail} onChange={(e) => setThumbnail(e.target.value)}/>
+                   value={product.thumbnail} onChange={(e) => handleChange(e.target.name, e.target.value)}/>
           </div>
           <div className="mb-3">
             <label className="form-label">Description <span className={styles.required}>*</span></label>
             <textarea id="description" name="description" className="form-control"
-                      value={description} onChange={(e) => setDescription(e.target.value)}/>
+                      value={product.description} onChange={(e) => handleChange(e.target.name, e.target.value)}/>
           </div>
           <div className="mb-3">
             <input className="form-check-input" type="checkbox" id="neverExpires" name="neverExpires"
@@ -110,18 +119,18 @@ const ProductForm = () => {
             <label className="form-label">
               Expires on:
             </label>
-            <input className="ms-2" disabled={neverExpires} type="date" id="expiresOn" name="expiresOn"
-                   value={expiry} onChange={(e) => setExpiry(e.target.value)}/>
+            <input className="ms-2" disabled={neverExpires} type="date" id="expiry" name="expiry"
+                   value={product.expiry} onChange={(e) => handleChange(e.target.name, e.target.value)}/>
           </div>
           <div className="mb-3">
-            <input className="form-check-input" type="checkbox" id="specialProduct" name="specialProduct"
-                   checked={special} onChange={(e) => setSpecial(e.target.checked)}/>
+            <input className="form-check-input" type="checkbox" id="special" name="special"
+                   checked={product.special} onChange={(e) => handleChange(e.target.name, e.target.checked)}/>
             <label className="ms-2 form-check-label" htmlFor="specialProduct">
               Special Product
             </label>
           </div>
           <div className="d-flex justify-content-center">
-            <button type="submit" disabled={!isFormValid} className="btn btn-primary">Submit</button>
+            <button type="submit" disabled={isFormInValid} className="btn btn-primary">Submit</button>
           </div>
         </form>
       </div>
@@ -129,7 +138,7 @@ const ProductForm = () => {
         <Modal.Header closeButton>
           <Modal.Title>Delete Product</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Are you sure to delete product {product ? product.title : ''}?</Modal.Body>
+        <Modal.Body>Are you sure to delete product {existing ? existing.title : ''}?</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => handleClose(false)}>
             Close

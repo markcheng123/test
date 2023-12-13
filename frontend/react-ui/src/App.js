@@ -4,7 +4,6 @@ import Footer from "./components/Footer";
 import { BrowserRouter, Routes, Route, Outlet, Navigate } from "react-router-dom";
 import Home from "./components/Home";
 import ProductForm from "./components/ProductForm";
-import NewProduct from "./components/NewProduct";
 
 function App() {
   return (
@@ -15,8 +14,8 @@ function App() {
           <Routes>
             <Route path="/">
               <Route index element={<Home />} />
-              <Route key="create" path="product/new" element={<NewProduct />} />
-              <Route key="update" path="product/:id" element={<ProductForm />}/>
+              <Route path="product/new" element={<ProductForm key="create" />} />
+              <Route path="product/:id" element={<ProductForm key="update" />}/>
               <Route path="*" element={<Navigate to='/' />}/>
             </Route>
           </Routes>
