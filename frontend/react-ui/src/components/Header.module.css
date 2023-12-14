@@ -1,8 +1,14 @@
 .container {
     width: 100%;
-    padding: 10px 220px;
+    padding: 3px;
     background-color: #282c34;
     color: #fff;
+}
+
+@media (min-width: 768px) {
+    .container {
+        padding: 10px;
+    }
 }
 
 .logo {
@@ -10,8 +16,14 @@
 }
 
 .name {
-    font-size: 26px;
+    font-size: 20px;
     color: #61dafb;
+}
+
+@media (min-width: 768px) {
+    .name {
+        font-size: 26px;
+    }
 }
 
 .nav {
@@ -21,7 +33,12 @@
 }
 
 .nav li {
-    font-size: 18px;
-    margin: 0px 12px;
+    margin: 0px 8px;
 }
 
+@media (min-width: 768px) {
+    .nav li {
+        font-size: 18px;
+        margin: 0px 12px;
+    }
+}

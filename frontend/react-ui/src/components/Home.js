@@ -45,7 +45,7 @@ const Home = () => {
         </Dropdown>
       </div>
       <div className={styles.productContainer}>
-        <div className={`d-flex flex-wrap ${styles.products}`}>
+        <div className={`row g-3 ${styles.products}`}>
           {filteredProducts.map(product => <ProductSummary key={product.id} product={product}/>)}
         </div>
       </div>
