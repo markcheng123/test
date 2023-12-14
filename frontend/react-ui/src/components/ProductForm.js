@@ -6,7 +6,7 @@ import {useEffect, useState} from "react";
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
-const ProductForm = () => {
+const ProductForm = ({onAlert}) => {
   const { id } = useParams();
 
   const categories = useSelector(selectCategories);
@@ -41,6 +41,7 @@ const ProductForm = () => {
     setShow(false);
     if (value) {
       dispatch(deleteProduct(existing.id));
+      onAlert('deleted');
       navigate('/');
     }
   };
@@ -61,8 +62,10 @@ const ProductForm = () => {
     e.preventDefault();
     if (existing) {
       dispatch(updateProduct({ id: existing.id, ...product }));
+      onAlert('updated');
     } else {
       dispatch(createProduct(product));
+      onAlert('created');
     }
     navigate('/');
   };
@@ -161,7 +164,7 @@ const ProductForm = () => {
           <Button variant="secondary" onClick={() => handleClose(false)}>
             Close
           </Button>
-          <Button variant="primary" onClick={() => handleClose(true)}>
+          <Button variant="danger" onClick={() => handleClose(true)}>
             Delete
           </Button>
         </Modal.Footer>
