@@ -2,7 +2,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import styles from './ProductForm.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import {createProduct, deleteProduct, selectCategories, selectProductsById, updateProduct} from "../redux/reducer";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
