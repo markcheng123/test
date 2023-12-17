@@ -23,17 +23,19 @@ const ProductForm = ({onAlert}) => {
     special: false
   });
 
-  const handleChange = (name, value) => {
+  const handleProductChange = (name, value) => {
     setProduct({...product, [name]: value})
   }
 
   const [neverExpires, setNeverExpires] = useState(existing ? !existing.expiry : true);
 
-  useEffect(() => {
-    if (neverExpires) {
-      setProduct((p) => ({...p, expiry: ''}));
+  const handleNeverExpiresChange = (e) => {
+    const value = e.target.checked;
+    setNeverExpires(value);
+    if (value) {
+      setProduct({ ...product, expiry: '' });
     }
-  }, [neverExpires]);
+  }
 
   const [show, setShow] = useState(false);
 
@@ -101,12 +103,12 @@ const ProductForm = ({onAlert}) => {
           <div className="mb-3">
             <label className="form-label">Title <span className={styles.required}>*</span></label>
             <input type="text" id="title" name="title" className="form-control"
-                   value={product.title} onChange={(e) => handleChange(e.target.name, e.target.value)}/>
+                   value={product.title} onChange={(e) => handleProductChange(e.target.name, e.target.value)}/>
           </div>
           <div className="mb-3">
             <label className="form-label">Category <span className={styles.required}>*</span></label>
             <select className="form-select" id="category" name="category"
-                    value={product.category} onChange={(e) => handleChange(e.target.name, e.target.value)}>
+                    value={product.category} onChange={(e) => handleProductChange(e.target.name, e.target.value)}>
               <option value="" disabled>Select category</option>
               {categories.map(category => <option key={category} value={category}>{category}</option>)}
             </select>
@@ -116,22 +118,22 @@ const ProductForm = ({onAlert}) => {
             <div className="input-group mb-3">
               <span className="input-group-text" id="basic-addon1">£</span>
               <input type="number" id="price" name="price" min="1" className="form-control"
-                     value={product.price} onChange={(e) => handleChange(e.target.name, e.target.value)} />
+                     value={product.price} onChange={(e) => handleProductChange(e.target.name, e.target.value)} />
             </div>
           </div>
           <div className="mb-3">
             <label className="form-label">Thumbnail</label>
             <input type="text" id="thumbnail" name="thumbnail" className="form-control"
-                   value={product.thumbnail} onChange={(e) => handleChange(e.target.name, e.target.value)}/>
+                   value={product.thumbnail} onChange={(e) => handleProductChange(e.target.name, e.target.value)}/>
           </div>
           <div className="mb-3">
             <label className="form-label">Description <span className={styles.required}>*</span></label>
             <textarea id="description" name="description" className="form-control"
-                      value={product.description} onChange={(e) => handleChange(e.target.name, e.target.value)}/>
+                      value={product.description} onChange={(e) => handleProductChange(e.target.name, e.target.value)}/>
           </div>
           <div className="mb-3">
             <input className="form-check-input" type="checkbox" id="neverExpires" name="neverExpires"
-                   checked={neverExpires} onChange={(e) => setNeverExpires(e.target.checked)}/>
+                   checked={neverExpires} onChange={handleNeverExpiresChange}/>
             <label className="ms-2 form-check-label" htmlFor="neverExpires">
               Never Expires
             </label>
@@ -141,11 +143,11 @@ const ProductForm = ({onAlert}) => {
               Expires on:
             </label>
             <input className="ms-2" disabled={neverExpires} type="date" id="expiry" name="expiry"
-                   value={product.expiry} onChange={(e) => handleChange(e.target.name, e.target.value)}/>
+                   value={product.expiry} onChange={(e) => handleProductChange(e.target.name, e.target.value)}/>
           </div>
           <div className="mb-3">
             <input className="form-check-input" type="checkbox" id="special" name="special"
-                   checked={product.special} onChange={(e) => handleChange(e.target.name, e.target.checked)}/>
+                   checked={product.special} onChange={(e) => handleProductChange(e.target.name, e.target.checked)}/>
             <label className="ms-2 form-check-label" htmlFor="specialProduct">
               Special Product
             </label>
